@@ -21,6 +21,7 @@ class SiteDeletion {
 
   /**
    * Delete rows from all tables that have id of site to delete.
+   *
    * Iterate through each table
    * @return
    */
@@ -50,8 +51,32 @@ class SiteDeletion {
 
   /** *
     * Helper function for deleteDependencies
-    * Receives current tableName and siteId column to delete
-    * @return
+    * Receives current tableName. Finds dependency for this table.
+    * @return A collection (CURSOR) of Foreign + Primary table names, Foreign + Primary key columns
     */
   def findDependencies() = {}
+
+  /** *
+    * Helper function for deleteDependencies.
+    * Any other constraints on primary/foreign tables that need to be disabled (dropped) before a dependency is removed
+    * should be handled here.
+    * Receives collection containing foreign table name for dependency deletion, name of table that has constraint and
+    * name of the constraint
+    * @return
+    */
+  def disableConstraints() = {}
+
+  /** *
+    * Helper function for deleteDependencies.
+    * Any constraints dropped as part of disableConstraints should be added back here. This restores integrity of DB.
+    * Receives foreign table name, constraint table name and name of constraint
+    * @return
+    */
+  def restoreConstraints() = {}
+
+  /** *
+    * Delete any data leftover for the current site that is being deleted. This handles anything that couldn't be
+    * removed during the main process. Example: HTMLInjectionPoint and T_Sites
+    */
+  def siteCleanup() = {}
 }
